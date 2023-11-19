@@ -1,11 +1,13 @@
 import datetime
 import wx
+import pandas as pd
 
 
 
 #run this if a ZID swiped today was swiped again
 def GetTimeDif(ZID):
     #look in the file for when he swiped in 
+    df = pd.read_csv("salaries.csv")
     #substract 
     current_time = datetime.datetime.now()
     print(current_time)
