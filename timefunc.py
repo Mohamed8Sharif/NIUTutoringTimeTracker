@@ -9,6 +9,8 @@ def GetTimeDif(zid):
     #zid = the zid passed into the function
     #ZID is the ZID colom pulled from the file using pandas
     df = pd.read_csv("test.csv")
+    current_time = datetime.datetime.now().strftime("%H:%M %A")
+
     
     #after student swipes in a second time set the "out time" of that specific student to the current time
     df.loc[df["ZID"] == zid , "Time out"] =  current_time
@@ -16,8 +18,7 @@ def GetTimeDif(zid):
     #look in the file for when he swiped in 
     
 
-    current_time = datetime.datetime.now().strftime("%H:%M %A")
-
+    
 
       
     df.to_csv('test.csv', index=False)
