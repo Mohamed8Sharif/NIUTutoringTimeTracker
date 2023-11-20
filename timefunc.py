@@ -15,14 +15,14 @@ def main():
 def GetTimeDif(zid):
     #zid = the zid passed into the function
     #ZID is the ZID colom pulled from the file using pandas
-    #df = pd.read_csv("test.csv")
+    df = pd.read_csv("test.csv")
     
-    current_time = datetime.datetime.now().strftime("%H:%M %A")
-
     #after student swipes in a second time set the "out time" of that specific student to the current time
-    df = pd.DataFrame({'ZID': zid , 'Time out': current_time})
+    df.loc[df["ZID"] == zid , "Time out"] =  current_time
     
     #look in the file for when he swiped in 
+
+    current_time = datetime.datetime.now().strftime("%H:%M %A")
 
     df.to_csv('test.csv', index=False)
     
@@ -43,8 +43,7 @@ class MyFrame(wx.Frame):
         my_btn = wx.Button(panel, label='Press Me')
         my_btn.Bind(wx.EVT_BUTTON, self.on_press)
         my_sizer.Add(my_btn, 0, wx.ALL | wx.CENTER, 5)        
-        panel.SetSizer(my_sizer)
-        now = wx.DateTime.Now()        
+        panel.SetSizer(my_sizer)        
         self.Show()
 
     def on_press(self, event):
@@ -52,8 +51,7 @@ class MyFrame(wx.Frame):
         if not value:
             print("Error I guess")
         else:
-            # GetTimeDif(value)
-            print("no")
+            GetTimeDif(value)
 
 
 # Calls main function
