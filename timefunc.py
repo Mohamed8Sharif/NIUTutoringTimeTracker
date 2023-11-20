@@ -5,12 +5,25 @@ import pandas as pd
 
 
 #run this if a ZID swiped today was swiped again
-def GetTimeDif(ZID):
+def GetTimeDif(zid):
+    #zid = the zid passed into the function
+    #ZID is the ZID colom pulled from the file using pandas
     #look in the file for when he swiped in 
-    df = pd.read_csv("salaries.csv")
-    #substract 
+    df = pd.read_csv("test.csv")
+    #print(df)
+    #ZID = df["ZID"]
+    RecordWithID = df.loc[df["ZID"] == zid]  
+
     current_time = datetime.datetime.now()
-    print(current_time)
+
+    df.loc[df["ZID"] == zid , "Time out"] =  current_time  
+
+    
+    
+    #print(ZID)
+    #substract 
+    
+    #print(current_time)
 
 
 
@@ -30,3 +43,4 @@ if __name__ == '__main__':
     app = wx.App()
     frame = MyFrame()
     app.MainLoop()
+    GetTimeDif("Z1980556")
