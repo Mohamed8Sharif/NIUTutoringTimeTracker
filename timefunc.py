@@ -8,16 +8,19 @@ import pandas as pd
 def GetTimeDif(zid):
     #zid = the zid passed into the function
     #ZID is the ZID colom pulled from the file using pandas
-    #look in the file for when he swiped in 
     df = pd.read_csv("test.csv")
-    #print(df)
-    #ZID = df["ZID"]
-    RecordWithID = df.loc[df["ZID"] == zid]  
+    
+    #after student swipes in a second time set the "out time" of that specific student to the current time
+    df.loc[df["ZID"] == zid , "Time out"] =  current_time
+    
+    #look in the file for when he swiped in 
+    
 
-    current_time = datetime.datetime.now()
+    current_time = datetime.datetime.now().strftime("%H:%M %A")
 
-    df.loc[df["ZID"] == zid , "Time out"] =  current_time  
 
+      
+    df.to_csv('test.csv', index=False)
     
     
     #print(ZID)
@@ -43,4 +46,5 @@ if __name__ == '__main__':
     app = wx.App()
     frame = MyFrame()
     app.MainLoop()
+    #ZID to be pulled from swipe
     GetTimeDif("Z1980556")
