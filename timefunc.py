@@ -1,4 +1,5 @@
-import datetime
+#import datetime
+from datetime import datetime
 import wx
 import pandas as pd
 
@@ -10,28 +11,46 @@ def main():
     #ZID to be pulled from swipe
     GetTimeDif("Z1980556")
 
-
+#we need 
 #run this if a ZID swiped today was swiped again
 def GetTimeDif(zid):
     #zid = the zid passed into the function
-    #ZID is the ZID colom pulled from the file using pandas
+    #ZID is the ZID colomn pulled from the file using pandas
     df = pd.read_csv("test.csv")
-    current_time = datetime.datetime.now().strftime("%H:%M %A")
+    current_time = datetime.now().strftime("%H:%M")
+    
+
+    current_time = datetime.strptime(current_time, "%H:%M").time()
+    print(type(current_time))
+
     
     #after student swipes in a second time set the "out time" of that specific student to the current time
     df.loc[df["ZID"] == zid , "Time out"] =  current_time
+
+    TimeIn = df.loc[df["ZID"] == zid, "Time in"].iloc[0]
+
+    TimeIn = datetime.strptime(TimeIn, "%H:%M").time()
+
+    print(type(TimeIn))
     
-    #look in the file for when he swiped in 
+
+
+    #finding the time difference 
+    #TimeDiff = current_time - TimeIn
+
+
+    #df.loc[df["ZID"] == zid , "Time Stayed For"] =  TimeDiff
+    
+
+    
+
 
     
 
     df.to_csv('test.csv', index=False)
     
     
-    #print(ZID)
-    #substract 
-    
-    #print(current_time)
+
 
 # GUI for the application
 class MyFrame(wx.Frame):    
