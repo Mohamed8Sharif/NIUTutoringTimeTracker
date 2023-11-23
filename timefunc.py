@@ -15,38 +15,40 @@ def main():
 #run this if a ZID swiped today was swiped again
 def GetTimeDif(zid):
     #zid = the zid passed into the function
-    #ZID is the ZID colomn pulled from the file using pandas
+    #ZID is the header name for the colomn that has all the ZID's
     df = pd.read_csv("test.csv")
-    current_time = datetime.now().strftime("%H:%M")
-    
 
-    current_time = datetime.strptime(current_time, "%H:%M").time()
-    print(type(current_time))
+    #pulling current time from local machine
+    CurrentTime = datetime.now().strftime("%H:%M")
+    
+    #converting to datetime obj
+    CurrentTime = datetime.strptime(CurrentTime, "%H:%M").time()
+    
 
     
     #after student swipes in a second time set the "out time" of that specific student to the current time
-    df.loc[df["ZID"] == zid , "Time out"] =  current_time
+    df.loc[df["ZID"] == zid , "Time out"] =  CurrentTime.strftime("%H:%M")#(to lose the seconds attribute )
 
-    TimeIn = df.loc[df["ZID"] == zid, "Time in"].iloc[0]
+    TimeIn = df.loc[df["ZID"] == zid, "Time in"].iloc[0] #pulling 'time in' from the  data frame
 
-    TimeIn = datetime.strptime(TimeIn, "%H:%M").time()
+    TimeIn = datetime.strptime(TimeIn, "%H:%M").time() #converting to datetime obj
 
-    print(type(TimeIn))
-    
+   
+
+    #had to add the day to each time stamp to get the substract working, idk why...
+    TimeIn = datetime.combine(datetime.today(), TimeIn)
+    CurrentTime = datetime.combine(datetime.today(), CurrentTime)
 
 
     #finding the time difference 
-    #TimeDiff = current_time - TimeIn
-
-
-    #df.loc[df["ZID"] == zid , "Time Stayed For"] =  TimeDiff
-    
+    TimeDiff = CurrentTime - TimeIn
 
     
-
-
+    #slap time diff into the dataframe
+    df.loc[df["ZID"] == zid , "Time Stayed For"] =  TimeDiff#.strftime("%H:%M")
     
 
+    #save dataframe into file
     df.to_csv('test.csv', index=False)
     
     
