@@ -9,8 +9,12 @@ def main():
     frame = MyFrame()
     app.MainLoop()
     #ZID to be pulled from swipe
-    GetTimeDif("Z1980556")
-    enterDate("Z1980556")
+
+
+    #Need to create control structure such that :
+    enterDate("Z1980556") #runs omly on first swipe
+    enterStartTime("Z1980556") # runs only on first swipe
+    GetTimeDif("Z1980556")  #runs only on second swipe
 
 
 def enterDate(zid):
@@ -20,7 +24,19 @@ def enterDate(zid):
     df.to_csv('test.csv', index=False)
 
 
+def enterStartTime(zid):
+    df = pd.read_csv("test.csv")
+    #pulling current time from local machine
+    CurrentTime = datetime.now().strftime("%H:%M")
+    #converting to datetime obj
+    CurrentTime = datetime.strptime(CurrentTime, "%H:%M").time()
+    
 
+    df.loc[df["ZID"] == zid , "Time in"] =  CurrentTime.strftime("%H:%M")
+    df.to_csv('test.csv', index=False)
+
+
+    
 
 
 #run this if a ZID swiped today was swiped again
