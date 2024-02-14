@@ -10,13 +10,26 @@ def main():
     app.MainLoop()
     #ZID to be pulled from swipe
     GetTimeDif("Z1980556")
+    enterDate("Z1980556")
 
-#we need 
+
+def enterDate(zid):
+    df = pd.read_csv("test.csv")
+    current_date = datetime.now().date()
+    df.loc[df["ZID"] == zid , "Date"] = current_date
+    df.to_csv('test.csv', index=False)
+
+
+
+
+
 #run this if a ZID swiped today was swiped again
 def GetTimeDif(zid):
     #zid = the zid passed into the function
     #ZID is the header name for the colomn that has all the ZID's
     df = pd.read_csv("test.csv")
+
+
 
     #pulling current time from local machine
     CurrentTime = datetime.now().strftime("%H:%M")
